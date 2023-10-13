@@ -1,0 +1,67 @@
+import pygame
+import random
+from sys import exit
+
+play = True
+while play == True:
+    ##pygame code##
+    pygame.init()
+    screen = pygame.display.set_mode((1920,1020))
+    pygame.display.set_caption("Gambling")
+    clock = pygame.time.Clock()
+
+    background = pygame.image.load("Graphics/Casino.jpg").convert_alpha()
+    blank = pygame.image.load("Graphics/blank.jpg").convert_alpha()
+    s1 = blank.get_rect(midbottom = (800,700))
+    s2 = blank.get_rect(midbottom = (1000,700))
+    s3 = blank.get_rect(midbottom = (1200,700))
+    
+    s1_s = blank
+    s2_s = blank
+    s3_s = blank
+    
+    button_s = pygame.image.load("Graphics/Button.png").convert_alpha()
+    button_r = button_s.get_rect(midbottom = (950,400))
+    
+    seven = pygame.image.load("Graphics/Seven.png").convert_alpha()
+    cherry = pygame.image.load("Graphics/Cherry.png").convert_alpha()
+    bell = pygame.image.load("Graphics/Bell.png").convert_alpha()
+    grape = pygame.image.load("Graphics/Grape.png").convert_alpha()
+    orange = pygame.image.load("Graphics/Orange.png").convert_alpha()
+    lemon = pygame.image.load("Graphics/Lemon.png").convert_alpha()
+    bar = pygame.image.load("Graphics/Bar.png").convert_alpha()
+    banana = pygame.image.load("Graphics/Banana.png").convert_alpha()
+    watermelon = pygame.image.load("Graphics/Watermelon.png").convert_alpha()
+    
+    icon = [seven,cherry,bell,grape,orange,lemon,bar,banana,watermelon]
+    ##variables##
+    pycoderun = True
+    pressed = 0
+    while pycoderun == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if button_r.collidepoint(event.pos):
+                      pressed = 1
+                    else:
+                        pressed = 0
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    pressed = 0
+        if pressed == 1:
+            for x in range(random.randint(0,9)):
+                s1_s = icon[x]
+            for x in range(random.randint(0,9)):
+                s2_s = icon[x]
+            for x in range(random.randint(0,9)):
+                s3_s = icon[x]
+        screen.blit(background,(0,0))
+        screen.blit(s1_s,s1)
+        screen.blit(s2_s,s2)
+        screen.blit(s3_s,s3)
+        screen.blit(button_s,button_r)
+        pygame.display.update()
+        clock.tick(60)
