@@ -9,6 +9,10 @@ while play == True:
     screen = pygame.display.set_mode((1920,1020))
     pygame.display.set_caption("Gambling")
     clock = pygame.time.Clock()
+    
+    test_font = pygame.font.Font("Font/Planet-Joy.ttf",60)
+    text = test_font.render("Nothing",True,"Yellow")
+    baltext = test_font.render("200",True,"Yellow")
 
     background = pygame.image.load("Graphics/Casino.jpg").convert_alpha()
     blank = pygame.image.load("Graphics/blank.jpg").convert_alpha()
@@ -22,6 +26,9 @@ while play == True:
     
     button_s = pygame.image.load("Graphics/Button.png").convert_alpha()
     button_r = button_s.get_rect(midbottom = (950,400))
+    pressonce = 0
+    balance = 200
+    change = ""
     
     seven = pygame.image.load("Graphics/Seven.png").convert_alpha()
     cherry = pygame.image.load("Graphics/Cherry.png").convert_alpha()
@@ -46,6 +53,7 @@ while play == True:
                 if event.button == 1:
                     if button_r.collidepoint(event.pos):
                       pressed = 1
+                      pressonce = 2
                     else:
                         pressed = 0
             if event.type == pygame.MOUSEBUTTONUP:
@@ -58,7 +66,34 @@ while play == True:
                 s2_s = icon[x]
             for x in range(random.randint(0,9)):
                 s3_s = icon[x]
+        if pressonce == 2:
+            balance -= 5
+            pressonce = 1
+            change = " - 5"
+            text = test_font.render("Nothing",True,"White")
+        if s1_s == s2_s == s3_s and pressed == 0 and pressonce == 1:
+            print("Jackpot")
+            text = test_font.render("Jackpot",True,"White")
+            pressonce = 0
+            balance += 105
+            change = " + 100"
+        elif s1_s == s2_s and pressed == 0 and pressonce == 1:
+            print("Mini")
+            text = test_font.render("Mini Jackpot",True,"White")
+            pressonce = 0
+            balance += 10
+            change = " + 5"
+        elif s2_s == s3_s and pressed == 0 and pressonce == 1:
+            print("Mini")
+            text = test_font.render("Mini Jackpot",True,"White")
+            pressonce = 0
+            balance += 10
+            change = " + 5"
         screen.blit(background,(0,0))
+        screen.blit(text,(1000,800))
+        balchan = str(balance) + change
+        baltext = test_font.render(str(balchan),True,"White")
+        screen.blit(baltext,(1400,800))
         screen.blit(s1_s,s1)
         screen.blit(s2_s,s2)
         screen.blit(s3_s,s3)
